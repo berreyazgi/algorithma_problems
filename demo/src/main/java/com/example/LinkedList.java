@@ -93,5 +93,136 @@ public class LinkedList {
 
     return;
 }
+//option 4 için personları ıd lere göre liste içinde obje oluşturma
+if (o instanceof Person) {
+    Person p = (Person) o;
+    Node newNode = new Node(p);
+
+    if (head == null || p.getID() < ((Person) head.data).getID()) {
+        newNode.next = head;
+        head = newNode;
+        return;
+    }
+
+    Node current = head;
+    while (current.next != null && current.next.data instanceof Person &&
+           ((Person) current.next.data).getID() <= p.getID()) {
+
+        current = current.next;
+    }
+
+    newNode.next = current.next;
+    current.next = newNode;
+    return;
+}
   }
-  }
+  //option 2 listelerdeki kişileri göstermek için
+  public void displayList() {
+    Node current = head;
+
+    while (current != null) {
+        Object data = current.data;
+
+        if (data instanceof Passanger) {
+            Passanger p = (Passanger) data;
+            System.out.println("Name: " + p.getName() + 
+                               ", Type: " + p.getType() + 
+                               ", ID: " + p.getID() +
+                               ", Ticket: " + p.getTicket() + 
+                               ", Priority: " + p.getPriority());
+
+        } else if (data instanceof Cabin_Crew) {
+            Cabin_Crew c = (Cabin_Crew) data;
+            System.out.println("Name: " + c.getName() + 
+                               ", Type: " + c.getType() + 
+                               ", ID: " + c.getID() +
+                               ", Job: " + c.getJob() + 
+                               ", Credit: " + c.getCredit());
+
+        } else if (data instanceof LinkedList) {
+            //Alt listeyi yazdır 
+            ((LinkedList) data).displayList();
+        }
+
+        current = current.next;
+    }
+}
+//option 3 için listedeki personların Idlerini bulup silme
+public void deleteById(long id) {
+    while (head != null && head.data instanceof Person && ((Person) head.data).getID() == id) {
+        head = head.next;
+    }
+
+    Node current = head;
+
+    //Listeyi dolaşarak aynı Id ye sahip insanları bul
+    while (current != null && current.next != null) {
+        if (current.next.data instanceof Person && ((Person) current.next.data).getID() == id) {
+            current.next = current.next.next; // node'u atla = sil
+        } else {
+            current = current.next;
+        }
+    }
+}
+//aynı Id lere sahip olan personları bütün listelerden sil
+public static void deleteEverywhere(LinkedList listOfLists, long id) {
+    Node current = listOfLists.head;
+
+    while (current != null) {
+        if (current.data instanceof LinkedList) {
+            ((LinkedList) current.data).deleteById(id);
+        }
+        current = current.next;
+    }
+}
+
+//option 4 Id ye göre sıralama
+public static LinkedList combineById(LinkedList listOfLists) {
+
+    LinkedList result = new LinkedList();
+
+    //Alt listelerdeki nesneler null olana kadar devam eder
+    while (true) {
+        //head yerine first kullandım listenin başını temsil etmesi için
+        Person first = null; 
+        Node firstListNode = null; //en küçük ıd ye sahip kişinin bulunduğu listenin Node’u
+
+        Node current = listOfLists.head;
+
+        // list_of_lists'in içindeki her listeyi dolaş
+        while (current != null) {
+
+            if (current.data instanceof LinkedList) {
+                LinkedList subList = (LinkedList) current.data;
+
+                // Bu alt liste boş değilse, head Person'ına bak
+                if (subList.head != null && subList.head.data instanceof Person) {
+                    Person candidate = (Person) subList.head.data;
+
+                    // first henüz seçilmediyse veya daha küçük ID bulunduysa güncelle
+                    if (first == null || candidate.getID() < first.getID()) {
+                        first = candidate;
+                        firstListNode  = current;
+                    }
+                }
+            }
+
+            current = current.next;
+        }
+
+        //Eğer first hala null ise tüm listeler boş demektir döngü sonlanır
+        if (first == null) {
+            break;
+        }
+
+        //Seçilen first Person'ı result'a ekler
+        result.insert(first);
+
+        //Seçilen Person'ı kendi listesinden çıkar, head'i ilerlet
+        LinkedList chosenList = (LinkedList) firstListNode.data;
+        chosenList.head = chosenList.head.next;
+    }
+
+    return result;
+}
+}

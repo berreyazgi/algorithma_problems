@@ -11,14 +11,14 @@ public class Main {
         LinkedList business_passangers_list = new LinkedList();         
         LinkedList cabin_crew_list = new LinkedList();       
 
-        // Bunları bir de list_of_lists içine ekleyeceksin
+        // Tüm listeleri tutacak linked list
         LinkedList list_of_lists = new LinkedList();
 
         list_of_lists.insert(economy_passangers_list);
         list_of_lists.insert(economy_premium_passangers_list);
         list_of_lists.insert(business_passangers_list);
         list_of_lists.insert(cabin_crew_list);
-    }
+    
 
     int operation;
 
@@ -52,9 +52,9 @@ public class Main {
             System.out.print("Enter the priority: ");
             int priority = Integer.parseInt(scan.nextLine());
 
-                Passanger p = new Passanger(name, id, ticket, priority);
+                Passanger p = new Passanger(name, type, id, ticket, priority);
 
-                 // doğru Passanger listesine ekle
+                 //Passengerları listeye kaydetmek için
                 if (ticket.equalsIgnoreCase("economy")) {
                     economy_passangers_list.insert(p);
                 } else if (ticket.equalsIgnoreCase("economy-premium")) {
@@ -67,14 +67,14 @@ public class Main {
 
         } else if (type.equalsIgnoreCase("cabin-crew")) {
 
-        System.out.print("Enter the job: ");
-        String job = scan.nextLine().trim();
+            System.out.print("Enter the job: ");
+            String job = scan.nextLine().trim();
 
-        System.out.print("Enter the credit: ");
-        double credit = Double.parseDouble(scan.nextLine());
+            System.out.print("Enter the credit: ");
+            double credit = Double.parseDouble(scan.nextLine());
 
-        Cabin_Crew c = new Cabin_Crew(name, id, job, credit);
-        cabin_crew_list.insert(c);
+            Cabin_Crew c = new Cabin_Crew(name, type, id, job, credit);
+            cabin_crew_list.insert(c);
 
     } else {
         System.out.println("Invalid type!");
@@ -82,14 +82,18 @@ public class Main {
 
     break;
             case 2:
-                // list_of_lists.displayList(); (7. adımda yazacağız)
+                list_of_lists.displayList();
                 break;
             case 3:
-                // delete operation (8. adımda gelecek)
+                 System.out.print("Enter the ID to delete: ");
+                long deleteId = Long.parseLong(scan.nextLine());
+                LinkedList.deleteEverywhere(list_of_lists, deleteId);
                 break;
             case 4:
-                // combine (9. adımda gelecek)
-                break;
+                LinkedList combined = LinkedList.combineById(list_of_lists);
+                combined.displayList();
+                System.out.println("Program ended.");
+                return;
             default:
                 System.out.println("Invalid choice!");
         }
@@ -98,6 +102,6 @@ public class Main {
 
     scan.close();
 }
-
+}
 
     

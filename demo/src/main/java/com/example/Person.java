@@ -5,6 +5,7 @@ public class Person {
   private String type;
   private long Id;
 
+  //constructor
   public Person(String name, String type, long Id) {
     this.name = name;
     this.type = type;

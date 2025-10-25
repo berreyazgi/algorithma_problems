@@ -4,6 +4,7 @@ public class Cabin_Crew extends Person {
   private String job;
   private double credit;
 
+  //constructor
   public Cabin_Crew(String name, String type, long Id, String job, double credit) {
     super(name, "cabin-crew", Id);
     this.job = job;

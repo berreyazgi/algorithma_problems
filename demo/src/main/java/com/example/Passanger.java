@@ -5,6 +5,7 @@ public class Passanger extends Person{
   private String ticket;
   private int priority;
 
+  //constructor
   public Passanger(String name, String type, long Id, String ticket, int priority) {
     super(name, "person", Id);
     this.ticket = ticket;
