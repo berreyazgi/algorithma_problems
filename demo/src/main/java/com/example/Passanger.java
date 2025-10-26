@@ -7,7 +7,7 @@ public class Passanger extends Person{
 
   //constructor
   public Passanger(String name, String type, long Id, String ticket, int priority) {
-    super(name, "person", Id);
+    super(name, "passanger", Id);
     this.ticket = ticket;
     this.priority = priority;
   }

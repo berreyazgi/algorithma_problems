@@ -4,7 +4,7 @@ public class LinkedList {
    Node head;
     
 
-    class Node {
+    static class Node {
         Object data;  
         Node next;
 
@@ -35,36 +35,36 @@ public class LinkedList {
     }
 
     // Passangerları priority e göre sırala
-    if (o instanceof Passanger) {
+    else if (o instanceof Passanger) {
       // passanger için downcast
-    Passanger p = (Passanger) o;
-    Node newNode = new Node(p);
+        Passanger p = (Passanger) o;
+         Node newNode = new Node(p);
 
-    if (head == null) {
+        if (head == null) {
         head = newNode;
         return;
-    }
+        }
 
-    // Eğer head Passanger değilse veya newNode daha küçük priority ise başa ekle
-    if (!(head.data instanceof Passanger) || p.getPriority() < ((Passanger) head.data).getPriority()) {
+         // Eğer head Passanger değilse veya newNode daha küçük priority ise başa ekle
+         if (!(head.data instanceof Passanger) || p.getPriority() < ((Passanger) head.data).getPriority()) {
         newNode.next = head;
         head = newNode;
         return;
-    }
+         }
 
-    // Linked listde sıraya ekle
-    Node current = head;
-    while (current.next != null && current.next.data instanceof Passanger && ((Passanger) current.next.data).getPriority() <= p.getPriority()) {
+        // Linked listde sıraya ekle
+        Node current = head;
+        while (current.next != null && current.next.data instanceof Passanger && ((Passanger) current.next.data).getPriority() <= p.getPriority()) {
 
         current = current.next;
-    }
-    newNode.next = current.next;
-    current.next = newNode;
+        }
+        newNode.next = current.next;
+        current.next = newNode;
 
-    return;
+            return;
 }
     //CabinCrew u credit e göre sırala
-    if (o instanceof Cabin_Crew) {
+    else  if (o instanceof Cabin_Crew) {
       // cabin_crew iiçin downcast
     Cabin_Crew c = (Cabin_Crew) o;
     Node newNode = new Node(c);
@@ -94,7 +94,7 @@ public class LinkedList {
     return;
 }
 //option 4 için personları ıd lere göre liste içinde obje oluşturma
-if (o instanceof Person) {
+else if (o instanceof Person) {
     Person p = (Person) o;
     Node newNode = new Node(p);
 
@@ -175,7 +175,20 @@ public static void deleteEverywhere(LinkedList listOfLists, long id) {
         current = current.next;
     }
 }
+public void reverse() {
+    Node prev = null;
+    Node current = head;
+    Node next;
 
+    while (current != null) {
+        next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+    }
+
+    head = prev;
+}
 //option 4 Id ye göre sıralama
 public static LinkedList combineById(LinkedList listOfLists) {
 
@@ -216,12 +229,15 @@ public static LinkedList combineById(LinkedList listOfLists) {
         }
 
         //Seçilen first Person'ı result'a ekler
-        result.insert(first);
+         Node n = new Node(first);
+        n.next = result.head;
+        result.head = n;
 
         //Seçilen Person'ı kendi listesinden çıkar, head'i ilerlet
         LinkedList chosenList = (LinkedList) firstListNode.data;
         chosenList.head = chosenList.head.next;
     }
+    result.reverse();
 
     return result;
 }

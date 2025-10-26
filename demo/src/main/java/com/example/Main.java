@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+       
          Scanner scan = new Scanner(System.in);
 
         LinkedList economy_passangers_list  = new LinkedList();          
@@ -92,7 +94,6 @@ public class Main {
             case 4:
                 LinkedList combined = LinkedList.combineById(list_of_lists);
                 combined.displayList();
-                System.out.println("Program ended.");
                 return;
             default:
                 System.out.println("Invalid choice!");
